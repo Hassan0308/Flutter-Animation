@@ -38,13 +38,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void initState() {
     //initiate animation controller
-   _animationController=AnimationController(vsync: this,duration: Duration(seconds: 2));
-   _animationController.addListener(() {
-
-     setState(() {
-
-     });
-   });
+   _animationController=AnimationController(vsync: this,duration: Duration(seconds: 3));
    //initiate animation
    positionAnimation = Tween<double>(begin: 0.0,end: 2*math.pi,).animate(_animationController);
    //animation start
