@@ -1,87 +1,136 @@
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      home: MotivationalAnimation(),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Animation'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
 
-  final String title;
-
+class MotivationalAnimation extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MotivationalAnimationState createState() => _MotivationalAnimationState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MotivationalAnimationState extends State<MotivationalAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  bool isStop = false;
 
-  late AnimationController _animationController ;
-  late Animation<double> positionAnimation;
   @override
   void initState() {
-    //initiate animation controller
-   _animationController=AnimationController(vsync: this,duration: Duration(seconds: 3));
-   //initiate animation
-   positionAnimation = Tween<double>(begin: 0.0,end: 2*math.pi,).animate(_animationController);
-   //animation start
-    _animationController.repeat();
     super.initState();
-  }
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+
+    _animation = Tween<double>(begin: 0, end: 100).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _controller.repeat(reverse: true);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
+      appBar: AppBar(
+        title: Text('Motivational Animation'),
+      ),
       body: Center(
-        child: AnimatedBuilder(
-          animation: positionAnimation,
-          builder: (context,index){
-            return Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.identity()..rotateZ(positionAnimation.value),
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.green.withOpacity(0.5),
-                        spreadRadius: 6,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-
-                      ),
-                    ]
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: _animation.value / 100 * 2 * pi,
+                  child: MotivationalText(_animation.value),
+                );
+              },
+            ),
+            SizedBox(height: 100,),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isStop?Colors.green:Colors.red
                 ),
-              ),
-            );
-          },
+                onPressed: (){
+              if(!isStop){
+                _controller.stop();
+                isStop = true;
+              }else{
+                _controller.repeat(reverse: true);
+                isStop = false;
+              }
+              setState(() {
 
+              });
+            }, child: isStop?Text("Play Now!"):Text("Stop Now"))
+          ],
+        ),
+
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
+
+class MotivationalText extends StatelessWidget {
+  final double animationValue;
+
+  MotivationalText(this.animationValue);
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate rotation angle based on animation value
+    double rotation = animationValue / 100 * 2 * pi;
+
+    // Calculate color based on animation value
+    Color textColor = Color.lerp(Colors.black, Colors.green, animationValue / 100) ?? Colors.blue;
+
+    // Use yellow as the background color for motivation
+    Color backgroundColor = Colors.yellow;
+
+    return Transform.rotate(
+      angle: rotation,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          'You can do it!',
+          style: TextStyle(
+            fontSize: 24,
+            color: textColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 }
+
