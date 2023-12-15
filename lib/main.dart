@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'clip_path_examples /clip_path_screen.dart';
+
 class FlowerShapeClipper extends CustomClipper<Path> {
   final double petalLength = 40.0;
 
@@ -132,6 +134,6 @@ class _ColorShapeSliderState extends State<ColorShapeSlider> {
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ColorShapeSlider(),
+    home: ClipPathScreen(),
   ));
 }
