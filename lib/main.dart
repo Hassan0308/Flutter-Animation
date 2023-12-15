@@ -1,136 +1,137 @@
-
+import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+class FlowerShapeClipper extends CustomClipper<Path> {
+  final double petalLength = 40.0;
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MotivationalAnimation(),
-      debugShowCheckedModeBanner: false,
-    );
+  Path getClip(Size size) {
+    final path = Path();
+
+    for (double angle = 0; angle < 2 * pi; angle += pi / 3) {
+      double x = size.width / 2 + petalLength * cos(angle);
+      double y = size.height / 2 + petalLength * sin(angle);
+
+      path.moveTo(size.width / 2, size.height / 2);
+      path.quadraticBezierTo(size.width / 2, size.height / 2 - petalLength / 2, x, y);
+      path.quadraticBezierTo(size.width / 2, size.height / 2 + petalLength / 2, size.width / 2, size.height / 2);
+    }
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }
 
-
-
-class MotivationalAnimation extends StatefulWidget {
+class ColorShapeSlider extends StatefulWidget {
   @override
-  _MotivationalAnimationState createState() => _MotivationalAnimationState();
+  _ColorShapeSliderState createState() => _ColorShapeSliderState();
 }
 
-class _MotivationalAnimationState extends State<MotivationalAnimation>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  bool isStop = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-
-    _animation = Tween<double>(begin: 0, end: 100).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-
-    _controller.repeat(reverse: true);
-  }
+class _ColorShapeSliderState extends State<ColorShapeSlider> {
+  double _sliderValue = 0.5;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(
-        title: Text('Motivational Animation'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return Transform.rotate(
-                  angle: _animation.value / 100 * 2 * pi,
-                  child: MotivationalText(_animation.value),
-                );
-              },
-            ),
-            SizedBox(height: 100,),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isStop?Colors.green:Colors.red
-                ),
-                onPressed: (){
-              if(!isStop){
-                _controller.stop();
-                isStop = true;
-              }else{
-                _controller.repeat(reverse: true);
-                isStop = false;
-              }
-              setState(() {
 
-              });
-            }, child: isStop?Text("Play Now!"):Text("Stop Now"))
-          ],
-        ),
-
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-}
-
-class MotivationalText extends StatelessWidget {
-  final double animationValue;
-
-  MotivationalText(this.animationValue);
-
-  @override
-  Widget build(BuildContext context) {
-    // Calculate rotation angle based on animation value
-    double rotation = animationValue / 100 * 2 * pi;
-
-    // Calculate color based on animation value
-    Color textColor = Color.lerp(Colors.black, Colors.green, animationValue / 100) ?? Colors.blue;
-
-    // Use yellow as the background color for motivation
-    Color backgroundColor = Colors.yellow;
-
-    return Transform.rotate(
-      angle: rotation,
-      child: Container(
-        padding: EdgeInsets.all(16),
+      body: Container(
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(8),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [calculateProfessionalColor(_sliderValue), Colors.white], // Blue to White gradient
+          ),
         ),
-        child: Text(
-          'You can do it!',
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: calculateProfessionalColor(_sliderValue),
+                  shape: _calculateShape(),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 3,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ClipPath(
+                  clipper: FlowerShapeClipper(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [_calculatePetalColor(), Colors.white],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Slider(
+                value: _sliderValue,
+                onChanged: (value) {
+                  setState(() {
+                    _sliderValue = value;
+                  });
+                },
+              ),
+        SizedBox(height: 20),
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: Colors.white,
+          child: Text(
+            'H',
+            style: TextStyle(
+              fontSize: 30,
+              color: calculateProfessionalColor(_sliderValue),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          'Hello Hassan',
           style: TextStyle(
-            fontSize: 24,
-            color: textColor,
-            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: _calculatePetalColor(),
+          ),)
+            ],
           ),
         ),
       ),
     );
   }
+
+  Color calculateProfessionalColor(double sliderValue) {
+    return Color.lerp(Color(0xFF0F7CE8), Color(0xFF67AEAF), sliderValue) ?? Color(
+        0xFF1E3146);
+  }
+
+  Color _calculatePetalColor() {
+    return Color.lerp(Color(0xFFF39C12), Color(0xFFE67E22), _sliderValue) ?? Color(0xFFF39C12); // Orange to Dark Orange
+  }
+
+
+  BoxShape _calculateShape() {
+    return _sliderValue > 0.5 ? BoxShape.circle : BoxShape.rectangle;
+  }
 }
 
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: ColorShapeSlider(),
+  ));
+}
