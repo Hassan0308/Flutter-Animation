@@ -1,13 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/bloc/counter_bloc/counter_bloc.dart';
+import 'package:flutter_animation/bloc/task_bloc/task_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'UI/tasks/list_of_tasks_screen.dart';
+
 void main() {
-  runApp(BlocProvider(
-    create: (context) => CounterBloc(),
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<TaskBloc>(
+        create: (BuildContext context) => TaskBloc(),
+      ),
+      BlocProvider<CounterBloc>(
+        create: (BuildContext context) => CounterBloc(),
+      ),
+    ],
     child: MaterialApp(
-      home: MyApp(),
+      home: TaskListScreen(),
     ),
   ));
 }
