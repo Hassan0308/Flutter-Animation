@@ -4,11 +4,12 @@ import 'package:flutter_animation/bloc/counter_bloc/counter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(
-      BlocProvider(
-        create: (context) => CounterBloc(),
-        child: MaterialApp(home: MyApp(),),
-      ));
+  runApp(BlocProvider(
+    create: (context) => CounterBloc(),
+    child: MaterialApp(
+      home: MyApp(),
+    ),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -26,18 +27,25 @@ class _MyAppState extends State<MyApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          BlocBuilder<CounterBloc, CounterState>(builder: (context,state){
-            return Center(child: Text(state.counter.toString()),);
-          }),
-          ElevatedButton(onPressed: (){
-            context.read<CounterBloc>().add(Increment());
-          }, child: Text("Increment"
-              "")),
-            ElevatedButton(onPressed: (){
-              context.read<CounterBloc>().add(Decrement());
-            }, child: Text("Decrement"
-                "")),
-        ],),
+            BlocBuilder<CounterBloc, CounterState>(builder: (context, state) {
+              return Center(
+                child: Text(state.counter.toString()),
+              );
+            }),
+            ElevatedButton(
+                onPressed: () {
+                  context.read<CounterBloc>().add(Increment());
+                },
+                child: Text("Increment"
+                    "")),
+            ElevatedButton(
+                onPressed: () {
+                  context.read<CounterBloc>().add(Decrement());
+                },
+                child: Text("Decrement"
+                    "")),
+          ],
+        ),
       ),
     );
   }
