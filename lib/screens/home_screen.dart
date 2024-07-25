@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animation/screens/detail_screen.dart';
+import 'package:flutter_animation/provider/animated_container_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,36 +10,44 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-
+    var provider =
+        Provider.of<AnimatedContainerProider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 159, 233, 238),
-          centerTitle: true,
-          title: Text("Hero Animation")),
-      body: SizedBox(
+        backgroundColor: Colors.purple,
+        title: Text("Animated Container"),
+        titleTextStyle: TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        centerTitle: true,
+        foregroundColor: Colors.white,
+      ),
+      body: Container(
         width: width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => DetailScreen())));
+            Consumer<AnimatedContainerProider>(
+                builder: (context, provider, child) {
+              return AnimatedContainer(
+                decoration: BoxDecoration(
+                  borderRadius: provider.flag
+                      ? BorderRadius.circular(0)
+                      : BorderRadius.circular(20),
+                  color: provider.flag ? Colors.blue : Colors.orange,
+                ),
+                duration: Duration(seconds: 2),
+                height: provider.flag ? 100 : 200,
+                width: provider.flag ? 200 : 100,
+              );
+            }),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  provider.toggleContainer();
                 },
-                child: Hero(
-                    tag: "hero-animation",
-                    child: Image.asset(
-                      "assets/images/image1.jpg",
-                      height: 100,
-                      width: 100,
-                    ))),
-            Text(
-              "Tap on Image To View Details",
-              style: TextStyle(fontSize: 20, color: Colors.black),
-            )
+                child: Text("Click me")),
           ],
         ),
       ),
