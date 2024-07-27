@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation/provider/animated_align_provider.dart';
 import 'package:flutter_animation/provider/animated_opacity_provider.dart';
 import 'package:flutter_animation/provider/animated_padding_provider.dart';
+import 'package:flutter_animation/provider/animated_positioned_provider.dart';
 import 'package:flutter_animation/screens/home_screen.dart';
 import 'package:flutter_animation/provider/animated_container_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => AnimatedAlignProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AnimatedPositionedProvider(),
     ),
   ], child: const MyApp()));
 }

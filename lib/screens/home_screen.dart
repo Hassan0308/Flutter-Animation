@@ -3,6 +3,7 @@ import 'package:flutter_animation/screens/animated_align_screen.dart';
 import 'package:flutter_animation/screens/animated_container_screen.dart';
 import 'package:flutter_animation/screens/animated_opacity_screen.dart';
 import 'package:flutter_animation/screens/animated_padding_screen.dart';
+import 'package:flutter_animation/screens/animated_positioned_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -47,16 +48,16 @@ class HomeScreen extends StatelessWidget {
       );
     },
   },
- /* {
-    'animation': 'AnimatedPositioned',
-    'onTap': (BuildContext context) {
+ {
+    'animation': 'Animated Positioned',
+    'onTap': () {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AnimatedPositionedScreen()),
       );
     },
   },
-  {
+ /* {
     'animation': 'AnimatedSize',
     'onTap': (BuildContext context) {
       Navigator.push(
