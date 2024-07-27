@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/screens/animated_align_screen.dart';
 import 'package:flutter_animation/screens/animated_container_screen.dart';
+import 'package:flutter_animation/screens/animated_cross_fade_screen.dart';
 import 'package:flutter_animation/screens/animated_opacity_screen.dart';
 import 'package:flutter_animation/screens/animated_padding_screen.dart';
 import 'package:flutter_animation/screens/animated_positioned_screen.dart';
@@ -31,52 +32,54 @@ class HomeScreen extends StatelessWidget {
           );
         },
       },
-       {
-    'animation': 'Animated Padding',
-    'onTap': () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AnimatedPaddingScreen()),
-      );
-    },
-  },
-  {
-    'animation': 'Animated Align',
-    'onTap': () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AnimatedAlignScreen()),
-      );
-    },
-  },
- {
-    'animation': 'Animated Positioned',
-    'onTap': () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AnimatedPositionedScreen()),
-      );
-    },
-  },
-  {
-    'animation': 'Animated Scale',
-    'onTap': () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AnimatedScaleScreen()),
-      );
-    },
-  },
-  /*{
-    'animation': 'AnimatedCrossFade',
-    'onTap': (BuildContext context) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AnimatedCrossFadeScreen()),
-      );
-    },
-  },
-  {
+      {
+        'animation': 'Animated Padding',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AnimatedPaddingScreen()),
+          );
+        },
+      },
+      {
+        'animation': 'Animated Align',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AnimatedAlignScreen()),
+          );
+        },
+      },
+      {
+        'animation': 'Animated Positioned',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AnimatedPositionedScreen()),
+          );
+        },
+      },
+      {
+        'animation': 'Animated Scale',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AnimatedScaleScreen()),
+          );
+        },
+      },
+      {
+        'animation': 'Animated CrossFade',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AnimatedCrossFadeScreen()),
+          );
+        },
+      },
+/*  {
     'animation': 'AnimatedSwitcher',
     'onTap': (BuildContext context) {
       Navigator.push(

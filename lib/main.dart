@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/provider/animated_align_provider.dart';
+import 'package:flutter_animation/provider/animated_cross_fade_provider.dart';
 import 'package:flutter_animation/provider/animated_opacity_provider.dart';
 import 'package:flutter_animation/provider/animated_padding_provider.dart';
 import 'package:flutter_animation/provider/animated_positioned_provider.dart';
@@ -27,6 +28,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => AnimatedScaleProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AnimatedCrossFadeProvider(),
     ),
   ], child: const MyApp()));
 }
