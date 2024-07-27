@@ -5,6 +5,7 @@ import 'package:flutter_animation/provider/animated_opacity_provider.dart';
 import 'package:flutter_animation/provider/animated_padding_provider.dart';
 import 'package:flutter_animation/provider/animated_positioned_provider.dart';
 import 'package:flutter_animation/provider/animated_scale_provider.dart';
+import 'package:flutter_animation/provider/animated_switcher_provider.dart';
 import 'package:flutter_animation/screens/home_screen.dart';
 import 'package:flutter_animation/provider/animated_container_provider.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => AnimatedCrossFadeProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AnimatedSwitcherProvider(),
     ),
   ], child: const MyApp()));
 }

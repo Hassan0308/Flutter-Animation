@@ -6,6 +6,7 @@ import 'package:flutter_animation/screens/animated_opacity_screen.dart';
 import 'package:flutter_animation/screens/animated_padding_screen.dart';
 import 'package:flutter_animation/screens/animated_positioned_screen.dart';
 import 'package:flutter_animation/screens/animated_scale_screen.dart';
+import 'package:flutter_animation/screens/animated_switcher_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -79,16 +80,16 @@ class HomeScreen extends StatelessWidget {
           );
         },
       },
-/*  {
-    'animation': 'AnimatedSwitcher',
-    'onTap': (BuildContext context) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AnimatedSwitcherScreen()),
-      );
-    },
-  },
-  {
+      {
+        'animation': 'Animated Switcher',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AnimatedSwitcherScreen()),
+          );
+        },
+      },
+      /* {
     'animation': 'AnimatedPhysicalModel',
     'onTap': (BuildContext context) {
       Navigator.push(
