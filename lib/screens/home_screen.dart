@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation/screens/animated_align_screen.dart';
 import 'package:flutter_animation/screens/animated_container_screen.dart';
 import 'package:flutter_animation/screens/animated_opacity_screen.dart';
 import 'package:flutter_animation/screens/animated_padding_screen.dart';
@@ -36,17 +37,17 @@ class HomeScreen extends StatelessWidget {
         MaterialPageRoute(builder: (context) => const AnimatedPaddingScreen()),
       );
     },
-  },/*
+  },
   {
-    'animation': 'AnimatedAlign',
-    'onTap': (BuildContext context) {
+    'animation': 'Animated Align',
+    'onTap': () {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AnimatedAlignScreen()),
       );
     },
   },
-  {
+ /* {
     'animation': 'AnimatedPositioned',
     'onTap': (BuildContext context) {
       Navigator.push(
