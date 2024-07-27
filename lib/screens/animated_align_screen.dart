@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation/provider/animated_padding_provider.dart';
+import 'package:flutter_animation/provider/animated_align_provider.dart';
 import 'package:provider/provider.dart';
 
 class AnimatedAlignScreen extends StatelessWidget {
@@ -8,11 +8,11 @@ class AnimatedAlignScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var provider = Provider.of<AnimatedPaddingProider>(context, listen: false);
+    var provider = Provider.of<AnimatedAlignProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purple,
-        title: const Text("Animated Opacity"),
+        title: const Text("Animated Align"),
         titleTextStyle: const TextStyle(
             color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
         centerTitle: true,
@@ -23,7 +23,7 @@ class AnimatedAlignScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Consumer<AnimatedPaddingProider>(
+            Consumer<AnimatedAlignProvider>(
                 builder: (context, provider, child) {
               return AnimatedAlign(
                 alignment:provider.flag? Alignment.centerLeft:Alignment.centerRight,
@@ -31,6 +31,7 @@ class AnimatedAlignScreen extends StatelessWidget {
                 child: const SizedBox(
                   width: 200,
                   child: Text(
+                    textAlign: TextAlign.justify,
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
                   ),
                 ),

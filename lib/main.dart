@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation/provider/animated_align_provider.dart';
 import 'package:flutter_animation/provider/animated_opacity_provider.dart';
 import 'package:flutter_animation/provider/animated_padding_provider.dart';
 import 'package:flutter_animation/screens/home_screen.dart';
@@ -15,6 +16,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => AnimatedPaddingProider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AnimatedAlignProvider(),
     ),
   ], child: const MyApp()));
 }
