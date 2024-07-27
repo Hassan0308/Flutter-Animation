@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/screens/animated_container_screen.dart';
+import 'package:flutter_animation/screens/animated_opacity_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,16 +18,16 @@ class HomeScreen extends StatelessWidget {
           );
         },
       },
-      /* {
-    'animation': 'AnimatedOpacity',
-    'onTap': (BuildContext context) {
+      {
+    'animation': 'Animated Opacity',
+    'onTap': () {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AnimatedOpacityScreen()),
       );
     },
   },
-  {
+ /* {
     'animation': 'AnimatedPadding',
     'onTap': (BuildContext context) {
       Navigator.push(
