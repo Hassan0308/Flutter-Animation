@@ -20,18 +20,23 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const AnimatedContainerScreen()),
+              builder: (context) => const AnimatedContainerScreen(),
+            ),
           );
         },
+        'image': 'assets/images/container.png',
       },
       {
         'animation': 'Animated Opacity',
         'onTap': () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AnimatedOpacityScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AnimatedOpacityScreen(),
+            ),
           );
         },
+        'image': 'assets/images/opacity.png',
       },
       {
         'animation': 'Animated Padding',
@@ -39,27 +44,35 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const AnimatedPaddingScreen()),
+              builder: (context) => const AnimatedPaddingScreen(),
+            ),
           );
         },
+        'image': 'assets/images/padding.png',
       },
       {
         'animation': 'Animated Align',
         'onTap': () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AnimatedAlignScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AnimatedAlignScreen(),
+            ),
           );
         },
+        'image': 'assets/images/align.png',
       },
       {
         'animation': 'Animated Positioned',
         'onTap': () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AnimatedPositionedScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AnimatedPositionedScreen(),
+            ),
           );
         },
+        'image': 'assets/images/position.png',
       },
       {
         'animation': 'Animated Scale',
@@ -67,37 +80,36 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const AnimatedScaleScreen()),
+              builder: (context) => const AnimatedScaleScreen(),
+            ),
           );
         },
+        'image': 'assets/images/scale.png',
       },
       {
         'animation': 'Animated CrossFade',
         'onTap': () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AnimatedCrossFadeScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AnimatedCrossFadeScreen(),
+            ),
           );
         },
+        'image': 'assets/images/cross_fade.png',
       },
       {
         'animation': 'Animated Switcher',
         'onTap': () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AnimatedSwitcherScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AnimatedSwitcherScreen(),
+            ),
           );
         },
+        'image': 'assets/images/switcher.png',
       },
-      /* {
-    'animation': 'AnimatedPhysicalModel',
-    'onTap': (BuildContext context) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AnimatedPhysicalModelScreen()),
-      );
-    },
-  },*/
     ];
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -109,28 +121,38 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         foregroundColor: Colors.white,
       ),
-      body: SizedBox(
+      body: Container(
+          padding: const EdgeInsets.all(10),
           width: width,
-          child: ListView.builder(
-              itemCount: animations.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 233, 177, 243)
-                          .withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ListTile(
-                      textColor: Colors.black,
-                      title: Text(animations[index]['animation'].toString()),
-                      onTap: animations[index]['onTap'],
-                    ),
-                  ),
-                );
-              })),
+          child: GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            children: animations
+                .map((e) => GestureDetector(
+                      onTap: e['onTap'],
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 233, 177, 243)
+                              .withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(e['image'], width: 50, height: 50),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(e['animation'].toString()),
+                          ],
+                        ),
+                      ),
+                    ))
+                .toList(),
+          )),
     );
   }
 }
