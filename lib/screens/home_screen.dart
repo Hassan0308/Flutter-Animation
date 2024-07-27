@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/screens/animated_container_screen.dart';
 import 'package:flutter_animation/screens/animated_opacity_screen.dart';
+import 'package:flutter_animation/screens/animated_padding_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,23 +20,23 @@ class HomeScreen extends StatelessWidget {
         },
       },
       {
-    'animation': 'Animated Opacity',
+        'animation': 'Animated Opacity',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AnimatedOpacityScreen()),
+          );
+        },
+      },
+       {
+    'animation': 'Animated Padding',
     'onTap': () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AnimatedOpacityScreen()),
+        MaterialPageRoute(builder: (context) => const AnimatedPaddingScreen()),
       );
     },
-  },
- /* {
-    'animation': 'AnimatedPadding',
-    'onTap': (BuildContext context) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AnimatedPaddingScreen()),
-      );
-    },
-  },
+  },/*
   {
     'animation': 'AnimatedAlign',
     'onTap': (BuildContext context) {
