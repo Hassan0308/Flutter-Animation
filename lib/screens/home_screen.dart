@@ -4,6 +4,7 @@ import 'package:flutter_animation/screens/animated_container_screen.dart';
 import 'package:flutter_animation/screens/animated_cross_fade_screen.dart';
 import 'package:flutter_animation/screens/animated_opacity_screen.dart';
 import 'package:flutter_animation/screens/animated_padding_screen.dart';
+import 'package:flutter_animation/screens/animated_physical_model_screen.dart';
 import 'package:flutter_animation/screens/animated_positioned_screen.dart';
 import 'package:flutter_animation/screens/animated_scale_screen.dart';
 import 'package:flutter_animation/screens/animated_switcher_screen.dart';
@@ -110,6 +111,18 @@ class HomeScreen extends StatelessWidget {
         },
         'image': 'assets/images/switcher.png',
       },
+      {
+        'animation': 'Animated Physical Model',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AnimatedPhysicalModelScreen(),
+            ),
+          );
+        },
+        'image': 'assets/images/physical_model.png',
+      },
     ];
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -146,7 +159,11 @@ class HomeScreen extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            Text(e['animation'].toString()),
+                            Text(
+                              e['animation'].toString(),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           ],
                         ),
                       ),

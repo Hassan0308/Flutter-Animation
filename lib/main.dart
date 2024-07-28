@@ -3,6 +3,7 @@ import 'package:flutter_animation/provider/animated_align_provider.dart';
 import 'package:flutter_animation/provider/animated_cross_fade_provider.dart';
 import 'package:flutter_animation/provider/animated_opacity_provider.dart';
 import 'package:flutter_animation/provider/animated_padding_provider.dart';
+import 'package:flutter_animation/provider/animated_physical_model_provider.dart';
 import 'package:flutter_animation/provider/animated_positioned_provider.dart';
 import 'package:flutter_animation/provider/animated_scale_provider.dart';
 import 'package:flutter_animation/provider/animated_switcher_provider.dart';
@@ -35,6 +36,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => AnimatedSwitcherProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AnimatedPhysicalModelProvider(),
     ),
   ], child: const MyApp()));
 }
