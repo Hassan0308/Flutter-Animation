@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation/provider/matrix4_transformation1_provider.dart';
-import 'package:flutter_animation/provider/matrix4_transformation2_provider.dart';
 import 'package:flutter_animation/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => Matrix4Transformation1Provider(),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => Matrix4Transformation2Provider(),
-    ),
-  ], child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
