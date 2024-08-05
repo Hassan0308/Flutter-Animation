@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: Opacity(
                     opacity: 0.5,
                     child: Image.asset(
-                      'assets/images/image.png',
+                      'assets/images/moon.png',
                       height: 150,
                       width: 150,
                     ))),
