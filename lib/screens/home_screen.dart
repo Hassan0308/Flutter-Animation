@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
+import 'package:flutter_animation/provider/gravity_simulation_animation_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,38 +9,18 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late SpringSimulation simulation;
-
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    controller = AnimationController.unbounded(vsync: this,value: 100)..addListener(() {});
-
-  //  _restartAnimation();
-  }
-
-  void _restartAnimation() {
-    simulation = SpringSimulation(
-      const SpringDescription(
-        mass: 1,
-        stiffness: 50,
-        damping: 0.5,
-      ),
-      0, // Starting point
-      100, // Ending point
-      70, // Initial velocity
-    );
-
-    controller.animateWith(simulation);
+    Provider.of<GravitySimulationAnimationProvider>(context, listen: false)
+        .initilizeAnimation(this);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    Provider.of<GravitySimulationAnimationProvider>(context, listen: false)
+        .dispose();
     super.dispose();
   }
 
@@ -50,105 +31,102 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 23, 124, 155),
-        title: const Text("Spring Simulation"),
+        backgroundColor: const Color.fromARGB(255, 16, 4, 68),
+        title: const Text("Tap on stars to break them"),
         titleTextStyle: const TextStyle(
             color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
         centerTitle: true,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              Provider.of<GravitySimulationAnimationProvider>(context,
+                      listen: false)
+                  .resetAllAnimations();
+            },
+          ),
+        ],
       ),
       body: Container(
         width: width,
         height: height,
-        color: const Color.fromARGB(255, 188, 219, 245),
-        padding: const EdgeInsets.fromLTRB(0, 50, 10, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF0A0F2B), Color.fromARGB(255, 23, 11, 73)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+        child: Stack(
           children: [
-            const Center(
-                child: Text(
-              "Tap on the Ball to Bounce",
-              style: TextStyle(fontSize: 18, color: Colors.black),
-              textAlign: TextAlign.center,
-            )),
-            SizedBox(
-              height: height * 0.1,
-            ),
-            Container(
-              height: height * 0.02,
-              width: width * 0.6,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFD2B48C),
-                    Color.fromARGB(255, 168, 115, 91),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: [0.2, 2],
-                ),
-                borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(30),
-                    topRight: Radius.circular(30)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 5,
-                    offset: const Offset(2, 4),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: height * 0.5,
-              child: AnimatedBuilder(
-                animation: controller,
-                builder: (context, child) {
-                  return Stack(
-                    children: [
-                      Transform.translate(
-                        offset: Offset(0, controller.value),
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.stop();
-                            controller.value = 0;
-                            _restartAnimation();
-                          },
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            margin: EdgeInsets.only(
-                              left: width * 0.42,
-                            ),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromARGB(255, 255, 0, 0),
-                                  Color.fromARGB(255, 252, 164, 164),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                stops: [0.2, 2],
-                              ),
+            Positioned(
+                top: 20,
+                left: 0,
+                right: 0,
+                child: Opacity(
+                    opacity: 0.5,
+                    child: Image.asset(
+                      'assets/images/image.png',
+                      height: 150,
+                      width: 150,
+                    ))),
+            Consumer<GravitySimulationAnimationProvider>(
+                builder: (context, provider, child) {
+              return AnimatedBuilder(
+                  animation: Listenable.merge([
+                    provider.starController,
+                    ...provider.gravityControllers
+                  ]),
+                  builder: (context, child) {
+                    return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 20,
+                      ),
+                      itemCount: 30,
+                      itemBuilder: (context, index) {
+                        return Transform.translate(
+                          offset: Offset(
+                              0, provider.gravityControllers[index].value),
+                          child: GestureDetector(
+                            onTap: () {
+                              provider.startAnimation(index);
+                            },
+                            child: Stack(
+                              children: [
+                                Visibility(
+                                  visible: provider.spark[index],
+                                  child: Image.asset(
+                                    'assets/images/flame.png',
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: !provider.spark[index],
+                                  child: Icon(
+                                    (index % 2 == 0)
+                                        ? Icons.star
+                                        : Icons.star_outline,
+                                    size: 20,
+                                    color:
+                                        const Color.fromARGB(255, 255, 208, 0)
+                                            .withOpacity(
+                                                provider.starAnimation.value),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        width: 2,
-                        margin: EdgeInsets.only(
-                          left: width * 0.55,
-                        ),
-                        height: controller.value,
-                        color: Colors.white,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
+                        );
+                      },
+                    );
+                  });
+            }),
           ],
         ),
       ),
