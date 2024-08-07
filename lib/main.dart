@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation/provider/gravity_simulation_animation_provider.dart';
+import 'package:flutter_animation/provider/bouncing_scroll_simulation_provier.dart';
 import 'package:flutter_animation/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
-      create: (context) => GravitySimulationAnimationProvider(),
+      create: (context) => BouncingScrollSimulationProvider(),
     ),
   ], child: const MyApp()));
 }
