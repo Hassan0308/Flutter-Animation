@@ -46,6 +46,21 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 },
               ),
             ),
+            if (_isSuperLiked)
+            Center(
+              child: Lottie.asset(
+                'assets/animations/celebration.json', 
+                repeat: false,
+                onLoaded: (composition) {
+                  // After animation is done, reset
+                  Future.delayed(composition.duration, () {
+                    setState(() {
+                      _isSuperLiked = false;
+                    });
+                  });
+                },
+              ),
+            ),
         ],
       ),
    
