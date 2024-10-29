@@ -4,19 +4,26 @@ import 'package:provider/provider.dart';
 
 class FlipCard extends StatefulWidget {
   final String backImagePath;
+  final int index;
+  final int id;
+  final bool isFlipped;
   final String frontImagePath;
 
   const FlipCard({
     Key? key,
     required this.backImagePath,
+    required this.index,
+    required this.id,
+    required this.isFlipped,
     required this.frontImagePath,
   }) : super(key: key);
 
   @override
-  _FlipCardProvider createState() => _FlipCardProvider();
+  _FlipCardState createState() => _FlipCardState();
 }
 
-class _FlipCardProvider extends State<FlipCard> with SingleTickerProviderStateMixin {
+class _FlipCardState extends State<FlipCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -26,6 +33,10 @@ class _FlipCardProvider extends State<FlipCard> with SingleTickerProviderStateMi
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
+
+    if (widget.isFlipped) {
+      _controller.forward();
+    }
   }
 
   @override
@@ -34,22 +45,15 @@ class _FlipCardProvider extends State<FlipCard> with SingleTickerProviderStateMi
     super.dispose();
   }
 
-  void _flipCard() {
-    final flipCardProvider = Provider.of<FlipCardProvider>(context, listen: false);
-
-    if (flipCardProvider.isFlipped) {
-      _controller.reverse().then((_) {
-        if (mounted) {
-          flipCardProvider.flip();
-        }
-      });
-    } else {
-      _controller.forward().then((_) {
-        if (mounted) {
-          flipCardProvider.triggerCelebration();
-          flipCardProvider.flip();
-        }
-      });
+  @override
+  void didUpdateWidget(FlipCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isFlipped != oldWidget.isFlipped) {
+      if (widget.isFlipped) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
     }
   }
 
@@ -59,7 +63,12 @@ class _FlipCardProvider extends State<FlipCard> with SingleTickerProviderStateMi
     final double cardHeight = MediaQuery.of(context).size.height * 0.5;
 
     return GestureDetector(
-      onTap: _flipCard,
+      onTap: () {
+        final flipCardProvider =
+            Provider.of<FlipCardProvider>(context, listen: false);
+        if (flipCardProvider.isTimmer)
+          flipCardProvider.flipCard(widget.index, widget.id);
+      },
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
@@ -75,8 +84,10 @@ class _FlipCardProvider extends State<FlipCard> with SingleTickerProviderStateMi
             alignment: Alignment.center,
             child: Stack(
               children: [
-                _buildFrontCard(cardWidth, cardHeight),
-                if (_controller.value > 0.5) _buildBackCard(cardWidth, cardHeight),
+                _buildBackCard(cardWidth, cardHeight),
+                if (widget.isFlipped)
+                  if (_controller.value > 0.5)
+                    _buildFrontCard(cardWidth, cardHeight),
               ],
             ),
           );
