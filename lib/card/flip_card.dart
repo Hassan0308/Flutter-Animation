@@ -101,6 +101,7 @@ class _FlipCardState extends State<FlipCard>
       width: width,
       height: height,
       decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -114,7 +115,7 @@ class _FlipCardState extends State<FlipCard>
         borderRadius: BorderRadius.circular(10),
         child: Image.asset(
           widget.frontImagePath,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
       ),
     );
