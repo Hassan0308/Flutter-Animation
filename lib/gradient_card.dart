@@ -47,7 +47,7 @@ class GradientCard extends StatelessWidget {
               Center(
                 child: Text(
                   quote,
-                  style: GoogleFonts.pacifico(
+                  style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w500,

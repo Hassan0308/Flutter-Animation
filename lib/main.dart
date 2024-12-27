@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/gradient_card.dart';
 import 'package:scrumlab_flutter_tindercard/scrumlab_flutter_tindercard.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -59,8 +60,26 @@ class _SwipCardAnimationState extends State<SwipCardAnimation>
             width: 200,
             height: 200,
           ),
+          GestureDetector(
+            onTap: () async {
+              var url = Uri.parse("https://pwhservices.tech");
+              if (await canLaunchUrl(url)) {
+                await launchUrl(
+                  url,
+                  mode: LaunchMode
+                      .externalApplication, // Ensure it opens in an external browser
+                );
+              } else {
+                print("Could not launch $url");
+              }
+            },
+            child: Text(
+              "www.pwhservices.tech",
+              style: TextStyle(color: Colors.white, fontSize: 14),
+            ),
+          ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: 10,
           ),
           Text(
             "Best wishes for the year ahead",
@@ -91,7 +110,8 @@ class _SwipCardAnimationState extends State<SwipCardAnimation>
   // Method to generate the list of cards
   static List<Widget> _generateCards() {
     return [
-   const  MainCard(),  const GradientCard(
+      const MainCard(),
+      const GradientCard(
         quote:
             "Every new year is a blank canvas, waiting for you to create a masterpiece.🌟 Set your goals, dream big, and achieve greatness.",
         gradientColors: [
@@ -114,7 +134,6 @@ class _SwipCardAnimationState extends State<SwipCardAnimation>
         backgroundImage: "assets/card1_bg.png",
         quoteColor: Color.fromARGB(255, 236, 184, 245),
       ),
-      
       const GradientCard(
         quote:
             "Embrace the magic of new beginnings. The New Year is a blank canvas; paint it with your dreams, aspirations, and unwavering belief in yourself. 🎨",
