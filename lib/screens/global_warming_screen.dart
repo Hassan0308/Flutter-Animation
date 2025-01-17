@@ -19,8 +19,12 @@ class _GlobalWarmingScreenState extends State<GlobalWarmingScreen>
     with TickerProviderStateMixin {
   StateMachineController? _stateMachineController;
   Artboard? mainArtBoard;
-
   SMIInput<bool>? check;
+
+  StateMachineController? _stateMachineController2;
+  Artboard? mainArtBoard2;
+  SMIInput<bool>? check2;
+
   @override
   void initState() {
     rootBundle.load("assets/background.riv").then((rive) {
@@ -32,6 +36,19 @@ class _GlobalWarmingScreenState extends State<GlobalWarmingScreen>
         mArtBoard.addController(_stateMachineController!);
         mainArtBoard = mArtBoard;
         check = _stateMachineController!.findInput("Theme toggled");
+      }
+    });
+
+    rootBundle.load("assets/toogle.riv").then((rive) {
+      var riveFile = RiveFile.import(rive);
+      var mArtBoard = riveFile.mainArtboard;
+      _stateMachineController2 =
+          StateMachineController.fromArtboard(mArtBoard, "State Machine 1");
+      if (_stateMachineController2 != null) {
+        mArtBoard.addController(_stateMachineController2!);
+        mainArtBoard2 = mArtBoard;
+        check2 = _stateMachineController2!.findInput("isDark");
+        check2!.value = !check2!.value;
       }
     });
     super.initState();
@@ -59,19 +76,10 @@ class _GlobalWarmingScreenState extends State<GlobalWarmingScreen>
                   fit: BoxFit.cover,
                 )),
           Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: width * 0.05, vertical: height * 0.02),
+            padding: EdgeInsets.fromLTRB(
+                width * 0.05, height * 0.1, width * 0.05, height * 0.02),
             child: Column(
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    themeProvider.toggleTheme();
-                    setState(() {
-                      check!.value = !check!.value;
-                    });
-                  },
-                  child: const Text("Toggle Theme"),
-                ),
                 // Top Container
                 Container(
                   width: width,
@@ -86,15 +94,39 @@ class _GlobalWarmingScreenState extends State<GlobalWarmingScreen>
                       fit: BoxFit.cover,
                     ),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Global warming is the rapid increase in earth's temperature",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  child: Column(
+                    children: [
+                      Text(
+                        "Global warming is the rapid increase in earth's temperature",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      Container(
+                        height: height * 0.1,
+                        width: width * 0.5,
+                        color: Colors.transparent,
+                        child: GestureDetector(
+                          onTap: () {
+                            themeProvider.toggleTheme();
+                            setState(() {
+                              check!.value = !check!.value;
+                              check2!.value = !check2!.value;
+                            });
+                          },
+                          child: (mainArtBoard2 == null)
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Rive(
+                                  artboard: mainArtBoard2!,
+                                  fit: BoxFit.contain,
+                                ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 // const SizedBox(height: 16),

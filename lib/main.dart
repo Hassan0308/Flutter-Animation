@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/provider/info_card_provider.dart';
+import 'package:flutter_animation/provider/rive_provider.dart';
 import 'package:flutter_animation/provider/theme_provider.dart';
 import 'package:flutter_animation/screens/global_warming_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => InfoCardProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => RiveProvider()),
       ],
       child: MyApp(),
     ),
