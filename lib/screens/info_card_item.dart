@@ -60,6 +60,8 @@ class _InfoCardItemState extends State<InfoCardItem>
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        surfaceTintColor: Colors.transparent,
+        color: ColorResources.primaryColor(context),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -68,7 +70,8 @@ class _InfoCardItemState extends State<InfoCardItem>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Card Title with Icon for expanding/collapsing
-            Container(
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 800),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: ColorResources.primaryColor(context),
@@ -115,7 +118,8 @@ class _InfoCardItemState extends State<InfoCardItem>
                 child: Text(
                   widget.content,
                   style: TextStyle(
-                      fontSize: 16, color: ColorResources.questionColor(context)),
+                      fontSize: 16,
+                      color: ColorResources.questionColor(context)),
                 ),
               ),
             ),
