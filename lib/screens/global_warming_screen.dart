@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/provider/info_card_provider.dart';
+import 'package:flutter_animation/provider/theme_provider.dart';
 import 'package:flutter_animation/screens/info_card_item.dart';
 import 'package:flutter_animation/util/images.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +19,17 @@ class _GlobalWarmingScreenState extends State<GlobalWarmingScreen>
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     final infoCardProvider = Provider.of<InfoCardProvider>(context);
-
+ final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       backgroundColor: const Color(0xff8FE5FF),
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [ElevatedButton(
+              onPressed: () {
+                themeProvider.toggleTheme();
+              },
+              child: const Text("Toggle Theme"),
+            ),],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: width * 0.05, vertical: height * 0.02),

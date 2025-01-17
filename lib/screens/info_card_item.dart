@@ -71,7 +71,7 @@ class _InfoCardItemState extends State<InfoCardItem>
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ColorResources.primaryColor,
+                color: ColorResources.primaryColor(context),
                 border: Border.all(color: widget.color, width: 1),
                 borderRadius: BorderRadius.vertical(
                   top: const Radius.circular(10),
@@ -107,7 +107,7 @@ class _InfoCardItemState extends State<InfoCardItem>
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: ColorResources.primaryColor,
+                  color: ColorResources.primaryColor(context),
                   borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(10),
                   ),
@@ -115,7 +115,7 @@ class _InfoCardItemState extends State<InfoCardItem>
                 child: Text(
                   widget.content,
                   style: TextStyle(
-                      fontSize: 16, color: ColorResources.questionColor),
+                      fontSize: 16, color: ColorResources.questionColor(context)),
                 ),
               ),
             ),
